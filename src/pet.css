@@ -1,0 +1,417 @@
+/* 鲸鱼娘桌宠 · 渲染层样式 */
+
+@font-face {
+  font-family: 'WhaleCandy';
+  src: url('../assets/fonts/whale-candy.ttf') format('truetype');
+  font-display: swap;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;
+  user-select: none;
+  cursor: default;
+  font-family: 'WhaleCandy', 'Microsoft YaHei UI', 'PingFang SC', system-ui, sans-serif;
+}
+
+/* 大号数字与正文用细体（软糖体太厚，长句读起来糊） */
+:root {
+  --font-thin: 'Microsoft YaHei UI Light', 'Microsoft YaHei Light', 'Microsoft YaHei UI',
+    'PingFang SC', 'Segoe UI', system-ui, sans-serif;
+}
+
+#root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* ----------------------------------------------------------- 信息卡 */
+
+.card {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--card-w, 344px);
+  height: var(--card-h, 214px);
+  padding: 16px 18px 14px;
+  border-radius: 20px;
+  background: #f6f6f8;
+  box-shadow:
+    0 10px 26px rgba(20, 24, 40, 0.18),
+    0 2px 6px rgba(20, 24, 40, 0.1);
+  opacity: 0;
+  transform: translateY(6px) scale(0.97);
+  transition: opacity 0.18s ease, transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.card.is-on {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.card-label {
+  font-size: 15px;
+  font-weight: 700;
+  color: #8b8b93;
+  letter-spacing: 0.5px;
+}
+
+.card-time {
+  margin-top: 2px;
+  font-family: var(--font-thin);
+  font-size: 44px;
+  line-height: 1.12;
+  font-weight: 300;
+  color: #17171b;
+  letter-spacing: 3px;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.tiles {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 14px;
+  display: flex;
+  gap: 9px;
+}
+
+.tile {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 92px;
+  border-radius: 13px;
+  background: #e9e9ee;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  padding: 6px 4px;
+}
+
+.tile-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #8b8b93;
+  white-space: nowrap;
+}
+
+.tile-value {
+  font-family: var(--font-thin);
+  font-size: 22px;
+  font-weight: 400;
+  color: #17171b;
+  line-height: 1.25;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.4px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tile-unit {
+  font-size: 12px;
+  color: #8b8b93;
+  font-weight: 600;
+}
+
+/* 卡片下沿的小标签 */
+.tag {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: rgba(28, 32, 48, 0.52);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.22);
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.tag.is-on {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ----------------------------------------------------------- 鲸鱼娘 */
+
+.stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--whale-w, 420px);
+  height: var(--whale-h, 236px);
+  z-index: 1;
+  will-change: transform;
+}
+
+.pet-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.22s ease;
+  pointer-events: none;
+}
+
+.pet-video.is-front {
+  opacity: 1;
+}
+
+.stage.is-hover .pet-video {
+  filter: drop-shadow(0 4px 10px rgba(30, 40, 70, 0.22));
+}
+
+.stage.is-drag {
+  cursor: grabbing;
+}
+
+/* ----------------------------------------------------------- 播报气泡 */
+
+.bubble {
+  position: absolute;
+  left: var(--pad, 24px);
+  top: var(--pad, 24px);
+  width: 366px;
+  padding: 12px 15px 13px;
+  border-radius: 16px;
+  background: rgba(246, 246, 248, 0.97);
+  box-shadow:
+    0 10px 26px rgba(20, 24, 40, 0.2),
+    0 2px 6px rgba(20, 24, 40, 0.1);
+  opacity: 0;
+  transform: translateY(-6px) scale(0.97);
+  transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+  cursor: pointer;
+  z-index: 4;
+}
+
+.bubble.is-on {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.bubble-head {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  margin-bottom: 5px;
+}
+
+.bubble-time {
+  font-size: 21px;
+  font-weight: 800;
+  color: #17171b;
+  font-variant-numeric: tabular-nums;
+}
+
+.bubble-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #8b8b93;
+  letter-spacing: 1px;
+}
+
+.bubble-body {
+  font-family: var(--font-thin);
+  font-size: 14px;
+  line-height: 1.7;
+  color: #3a3a42;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+}
+
+/* ----------------------------------------------------------- 互动气泡 */
+
+.say {
+  position: absolute;
+  left: 0;
+  top: 0;
+  max-width: 230px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow:
+    0 6px 18px rgba(20, 24, 40, 0.16),
+    0 1px 3px rgba(20, 24, 40, 0.1);
+  font-family: var(--font-thin);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+  color: #2b2b33;
+  line-height: 1.45;
+  opacity: 0;
+  transform: translateY(6px) scale(0.95);
+  transition: opacity 0.18s ease, transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+  z-index: 6;
+}
+
+.say.is-on {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.say img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  border-radius: 8px;
+  flex: none;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+/* ----------------------------------------------------------- 积分卡 */
+
+.score {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%) scale(0.6);
+  font-size: 34px;
+  font-weight: 800;
+  color: #ff7a45;
+  text-shadow:
+    0 2px 0 #fff,
+    0 6px 16px rgba(255, 122, 69, 0.45);
+  opacity: 0;
+  transition: opacity 0.18s ease, transform 0.35s cubic-bezier(0.22, 1.4, 0.36, 1);
+  pointer-events: none;
+  z-index: 8;
+}
+
+.score.is-on {
+  opacity: 1;
+  transform: translate(-50%, -90%) scale(1);
+}
+
+.fx {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 7;
+}
+
+.particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  border-radius: 50%;
+  background: #ffd166;
+  box-shadow: 0 0 8px rgba(255, 209, 102, 0.8);
+  animation: burst 0.85s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+}
+
+@keyframes burst {
+  from {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translate(var(--dx), var(--dy)) scale(0.2);
+    opacity: 0;
+  }
+}
+
+/* ----------------------------------------------------------- 右键菜单 */
+
+.menu {
+  position: absolute;
+  left: 0;
+  top: 0;
+  min-width: 168px;
+  padding: 6px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow:
+    0 10px 26px rgba(20, 24, 40, 0.22),
+    0 2px 6px rgba(20, 24, 40, 0.12);
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.14s ease, transform 0.14s ease;
+  pointer-events: none;
+  z-index: 9;
+}
+
+.menu.is-on {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.menu-item {
+  position: relative;
+  padding: 7px 12px;
+  border-radius: 8px;
+  font-family: var(--font-thin);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.4px;
+  color: #2b2b33;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.menu-item:hover {
+  background: #eef3ff;
+  color: #2b4f9e;
+}
+
+.menu-sub {
+  position: absolute;
+  left: 100%;
+  top: -6px;
+  min-width: 150px;
+  padding: 6px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow:
+    0 10px 26px rgba(20, 24, 40, 0.22),
+    0 2px 6px rgba(20, 24, 40, 0.12);
+  display: none;
+  font-family: var(--font-thin);
+}
+
+.menu-item.has-sub:hover .menu-sub {
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .tag,
+  .bubble,
+  .say,
+  .pet-video {
+    transition: none;
+  }
+}

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self' data: blob:; font-src 'self';"
+    />
+    <title>好搭子</title>
+    <link rel="stylesheet" href="pet.css" />
+  </head>
+  <body>
+    <div id="root">
+      <!-- 互动气泡（点击回应 / 碎碎念 / 表情包） -->
+      <div id="say" class="say">
+        <img id="sayImg" alt="" />
+        <span id="sayText"></span>
+      </div>
+
+      <!-- 信息卡：鼠标悬停鲸鱼娘时浮现（位置跟着宠物走） -->
+      <div id="card" class="card">
+        <div class="card-label" id="cardLabel">距离下班还有</div>
+        <div class="card-time" id="cardTime">--:--:--</div>
+        <div class="tiles">
+          <div class="tile">
+            <div class="tile-label">周五</div>
+            <div class="tile-value" id="fridayVal">--</div>
+            <div class="tile-unit">天</div>
+          </div>
+          <div class="tile">
+            <div class="tile-label">发薪</div>
+            <div class="tile-value" id="paydayVal">--</div>
+            <div class="tile-unit">天</div>
+          </div>
+          <div class="tile">
+            <div class="tile-label">今天赚了</div>
+            <div class="tile-value" id="earnedVal">--</div>
+            <div class="tile-unit">¥</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 卡片下沿的小标签 -->
+      <div class="tag" id="cardTag">下班倒计时</div>
+
+      <!-- 鲸鱼娘本体（位置由 JS 控制，可在窗口里走动 / 被甩飞） -->
+      <div id="stage" class="stage" aria-label="鲸鱼娘（拖动可移动，双击打开设置）">
+        <video id="vidA" class="pet-video" muted playsinline></video>
+        <video id="vidB" class="pet-video" muted playsinline></video>
+      </div>
+
+      <!-- 粒子层 / 积分卡 -->
+      <div id="fx" class="fx"></div>
+      <div id="score" class="score"></div>
+
+      <!-- 整点播报气泡 -->
+      <div id="bubble" class="bubble">
+        <div class="bubble-head"><span id="bubbleTime">--:--</span><span id="bubbleTitle">整点播报</span></div>
+        <div class="bubble-body" id="bubbleBody"></div>
+      </div>
+
+      <!-- 右键菜单 -->
+      <div id="menu" class="menu"></div>
+    </div>
+
+    <script src="lib/calc.js"></script>
+    <script src="lib/anim.js"></script>
+    <script src="lib/phrases.js"></script>
+    <script src="lib/physics.js"></script>
+    <script src="pet.js"></script>
+  </body>
+</html>

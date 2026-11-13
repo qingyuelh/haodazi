@@ -1,0 +1,20 @@
+# 依赖与构建产物
+node_modules/
+dist/
+.tmp/
+
+# 日志
+*.log
+app_out.txt
+app_err.txt
+
+# 本地配置
+config.json
+
+# 语音模型（60MB，用 scripts/fetch-voice-model 下载）
+tts/voices/*.onnx
+tts/voices/*.onnx.json
+
+# 系统
+.DS_Store
+Thumbs.db

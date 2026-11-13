@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self';"
+    />
+    <title>好搭子 · 设置</title>
+    <link rel="stylesheet" href="settings.css" />
+  </head>
+  <body>
+    <header class="head">
+      <div class="head-title">好搭子</div>
+      <div class="head-sub">鲸鱼娘桌宠 · 设置，改动即时生效并自动保存</div>
+    </header>
+
+    <main class="body">
+      <!-- 预览 -->
+      <section class="preview">
+        <div class="pv-item">
+          <div class="pv-label">今日日薪</div>
+          <div class="pv-value" id="pvDaily">--</div>
+        </div>
+        <div class="pv-item">
+          <div class="pv-label">下次发薪</div>
+          <div class="pv-value" id="pvPayday">--</div>
+        </div>
+        <div class="pv-item">
+          <div class="pv-label">距离周五</div>
+          <div class="pv-value" id="pvFriday">--</div>
+        </div>
+      </section>
+
+      <!-- 班次 -->
+      <section class="card">
+        <h2>作息</h2>
+        <div class="row two">
+          <label class="field">
+            <span>上班时间</span>
+            <input type="time" id="workStart" step="60" />
+          </label>
+          <label class="field">
+            <span>下班时间</span>
+            <input type="time" id="workEnd" step="60" />
+          </label>
+        </div>
+        <div class="row">
+          <label class="field">
+            <span>工作日</span>
+            <div class="week" id="weekBox">
+              <label class="day"><input type="checkbox" data-day="1" /><span>一</span></label>
+              <label class="day"><input type="checkbox" data-day="2" /><span>二</span></label>
+              <label class="day"><input type="checkbox" data-day="3" /><span>三</span></label>
+              <label class="day"><input type="checkbox" data-day="4" /><span>四</span></label>
+              <label class="day"><input type="checkbox" data-day="5" /><span>五</span></label>
+              <label class="day"><input type="checkbox" data-day="6" /><span>六</span></label>
+              <label class="day"><input type="checkbox" data-day="7" /><span>日</span></label>
+            </div>
+          </label>
+        </div>
+        <p class="hint" id="shiftHint"></p>
+      </section>
+
+      <!-- 工资 -->
+      <section class="card">
+        <h2>工资</h2>
+        <div class="row two">
+          <label class="field">
+            <span>月薪（元）</span>
+            <input type="number" id="monthlySalary" min="0" step="100" />
+          </label>
+          <label class="field">
+            <span>发薪日</span>
+            <select id="paydayDay"></select>
+          </label>
+        </div>
+        <div class="row">
+          <label class="field">
+            <span>日薪算法</span>
+            <div class="radios">
+              <label class="radio"><input type="radio" name="salaryMode" value="month" /><span>按本月实际工作日</span></label>
+              <label class="radio"><input type="radio" name="salaryMode" value="fixed" /><span>按固定 21.75 天</span></label>
+            </div>
+          </label>
+        </div>
+        <p class="hint" id="salaryHint"></p>
+      </section>
+
+      <!-- 播报 -->
+      <section class="card">
+        <h2>整点播报</h2>
+        <label class="check"><input type="checkbox" id="announceHourly" /><span>每个整点自动播报</span></label>
+        <label class="check"><input type="checkbox" id="announceOnlyWhenWorking" /><span>仅在工作时段播报</span></label>
+        <label class="check"><input type="checkbox" id="upbeatText" /><span>元气口吻的播报文案</span></label>
+        <label class="check"><input type="checkbox" id="speak" /><span>语音播报</span></label>
+
+        <div class="row">
+          <label class="field">
+            <span>语音引擎</span>
+            <div class="radios">
+              <label class="radio"><input type="radio" name="voiceEngine" value="auto" /><span>自动（在线优先，断网转离线）</span></label>
+              <label class="radio"><input type="radio" name="voiceEngine" value="edge" /><span>元气少女（Edge 在线音色）</span></label>
+              <label class="radio"><input type="radio" name="voiceEngine" value="piper" /><span>本地离线女声（随包附带）</span></label>
+              <label class="radio"><input type="radio" name="voiceEngine" value="system" /><span>系统女声（Windows 自带）</span></label>
+            </div>
+          </label>
+        </div>
+        <p class="hint" id="engineHint"></p>
+
+        <div class="row" id="rowEdgeVoice">
+          <label class="field">
+            <span>音色</span>
+            <select id="edgeVoice"></select>
+          </label>
+        </div>
+        <div class="row two" id="rowEdgeTune">
+          <label class="field">
+            <span>语速 <b id="rateText">18%</b></span>
+            <input type="range" id="speechRate" min="-10" max="40" step="2" />
+          </label>
+          <label class="field">
+            <span>音调 <b id="pitchText">22Hz</b></span>
+            <input type="range" id="speechPitch" min="0" max="60" step="2" />
+          </label>
+        </div>
+
+        <div class="row" id="rowSysVoice">
+          <label class="field">
+            <span>系统音色</span>
+            <select id="systemVoice"></select>
+          </label>
+        </div>
+        <div class="row two" id="rowSysTune">
+          <label class="field">
+            <span>语速 <b id="sysRateText">1.25</b></span>
+            <input type="range" id="systemRate" min="80" max="200" step="5" />
+          </label>
+          <label class="field">
+            <span>音调 <b id="sysPitchText">1.55</b></span>
+            <input type="range" id="systemPitch" min="50" max="200" step="5" />
+          </label>
+        </div>
+
+        <div class="row">
+          <label class="field">
+            <span>音量 <b id="volText">90%</b></span>
+            <input type="range" id="speakVolume" min="0" max="100" step="5" />
+          </label>
+        </div>
+        <label class="check"><input type="checkbox" id="alwaysOnTop" /><span>始终置顶</span></label>
+        <label class="check"><input type="checkbox" id="autostart" /><span>开机自启</span></label>
+      </section>
+
+      <!-- 外观 -->
+      <section class="card">
+        <h2>外观</h2>
+        <div class="row">
+          <label class="field">
+            <span>桌宠大小 <b id="scaleText">100%</b></span>
+            <input type="range" id="petScale" min="55" max="170" step="5" />
+          </label>
+        </div>
+      </section>
+
+      <section class="actions">
+        <button id="btnAnnounce" class="btn">立即播报一次</button>
+        <button id="btnShow" class="btn ghost">显示桌宠</button>
+        <button id="btnReset" class="btn ghost">恢复默认</button>
+        <span class="saved" id="saved">已保存</span>
+      </section>
+
+      <footer class="foot">
+        <span id="verInfo">v1.0.0</span>
+        <span>鲸鱼娘形象素材来自 DSH dsh-pet</span>
+      </footer>
+    </main>
+
+    <script src="lib/calc.js"></script>
+    <script src="settings.js"></script>
+  </body>
+</html>

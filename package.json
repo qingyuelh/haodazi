@@ -1,0 +1,80 @@
+{
+  "name": "whale-desk-pet",
+  "productName": "好搭子",
+  "version": "1.3.1",
+  "description": "DSH Whale Desk Pet - work countdown, daily salary board, hourly announcement",
+  "main": "src/main.js",
+  "author": "本澜",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win nsis portable --publish never"
+  },
+  "devDependencies": {
+    "electron": "43.3.0",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.dsh.whale.deskpet",
+    "productName": "好搭子",
+    "copyright": "DSH Whale Desk Pet",
+    "electronVersion": "43.3.0",
+    "electronDist": "F:/ojj/DSH NEXT/data/electron",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "src/**/*",
+      "assets/**/*",
+      "!**/*.map"
+    ],
+    "extraResources": [
+      {
+        "from": "tts",
+        "to": "tts"
+      }
+    ],
+    "extraMetadata": {
+      "main": "src/main.js"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "executableName": "HaoDaZi",
+      "icon": "build/icon.png",
+      "artifactName": "HaoDaZi-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "好搭子",
+      "installerLanguages": [
+        "zh_CN"
+      ],
+      "language": "2052"
+    },
+    "portable": {
+      "artifactName": "HaoDaZi-${version}-portable.${ext}"
+    }
+  },
+  "dependencies": {
+    "ws": "^8.22.2"
+  }
+}
